@@ -1,0 +1,68 @@
+[gd_scene load_steps=11 format=3 uid="uid://b0avhx5tak3vx"]
+
+[ext_resource type="Script" path="res://Level.gd" id="1_tab3n"]
+[ext_resource type="PackedScene" uid="uid://b7m6hnnhy4w5t" path="res://Platform1.tscn" id="2_nds03"]
+[ext_resource type="PackedScene" uid="uid://bgi3il201rymo" path="res://Platform2.tscn" id="3_tf2fc"]
+[ext_resource type="PackedScene" uid="uid://qkm0vfngbrth" path="res://Platform3.tscn" id="4_ckkgl"]
+[ext_resource type="PackedScene" uid="uid://cbode1t38g7hb" path="res://Platform4.tscn" id="5_jjjjx"]
+[ext_resource type="PackedScene" uid="uid://bpvmeqepnu10v" path="res://Player.tscn" id="6_frow5"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_onihu"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_6rbhx"]
+sky_material = SubResource("ProceduralSkyMaterial_onihu")
+
+[sub_resource type="Environment" id="Environment_fglsk"]
+background_mode = 2
+sky = SubResource("Sky_6rbhx")
+tonemap_mode = 2
+fog_enabled = true
+
+[sub_resource type="LabelSettings" id="LabelSettings_5s675"]
+font_size = 35
+
+[node name="Level" type="Node3D"]
+script = ExtResource("1_tab3n")
+platforms = Array[PackedScene]([ExtResource("2_nds03"), ExtResource("3_tf2fc"), ExtResource("4_ckkgl"), ExtResource("5_jjjjx")])
+
+[node name="CharacterBody3D" parent="." instance=ExtResource("6_frow5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 4, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+light_color = Color(0.898039, 0.509804, 0.262745, 1)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_fglsk")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -7, 6, 0)
+
+[node name="Platforms" type="Node3D" parent="."]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 0
+offset_left = 57.0
+offset_top = 42.0
+offset_right = 188.0
+offset_bottom = 121.0
+
+[node name="Score" type="Label" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "Score: 0"
+label_settings = SubResource("LabelSettings_5s675")
+
+[node name="HighScore" type="Label" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "High Score: 0"

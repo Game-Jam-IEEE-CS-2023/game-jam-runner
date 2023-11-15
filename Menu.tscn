@@ -1,0 +1,84 @@
+[gd_scene load_steps=11 format=3 uid="uid://l3qb8j3kwy2l"]
+
+[ext_resource type="PackedScene" uid="uid://bpvmeqepnu10v" path="res://Player.tscn" id="1_a4kns"]
+[ext_resource type="Script" path="res://Menu.gd" id="1_nsh33"]
+[ext_resource type="PackedScene" uid="uid://b7m6hnnhy4w5t" path="res://Platform1.tscn" id="1_snqt1"]
+[ext_resource type="PackedScene" uid="uid://bgi3il201rymo" path="res://Platform2.tscn" id="3_p6bvh"]
+[ext_resource type="PackedScene" uid="uid://qkm0vfngbrth" path="res://Platform3.tscn" id="4_oqq2y"]
+[ext_resource type="PackedScene" uid="uid://cbode1t38g7hb" path="res://Platform4.tscn" id="5_g71ej"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_kqj4a"]
+font_size = 45
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_2gsr5"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_yooga"]
+sky_material = SubResource("ProceduralSkyMaterial_2gsr5")
+
+[sub_resource type="Environment" id="Environment_d3leb"]
+background_mode = 2
+sky = SubResource("Sky_yooga")
+tonemap_mode = 2
+
+[node name="Menu" type="Node"]
+script = ExtResource("1_nsh33")
+wArray = Array[PackedScene]([ExtResource("1_snqt1"), ExtResource("3_p6bvh"), ExtResource("4_oqq2y"), ExtResource("5_g71ej")])
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -54.0
+offset_top = 44.0
+offset_right = 54.0
+offset_bottom = 79.0
+grow_horizontal = 2
+text = "Runner Demo"
+label_settings = SubResource("LabelSettings_kqj4a")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 82.0
+offset_top = -30.0
+offset_right = 185.0
+offset_bottom = 31.0
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "High Score: 0"
+
+[node name="Play" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "Play"
+
+[node name="Node3D" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 2, 5)
+
+[node name="CharacterBody3D" parent="Node3D" instance=ExtResource("1_a4kns")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Node3D"]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Node3D"]
+environment = SubResource("Environment_d3leb")
+
+[connection signal="pressed" from="Control/VBoxContainer/Play" to="." method="_on_play_pressed"]
